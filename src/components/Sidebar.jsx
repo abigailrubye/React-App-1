@@ -5,7 +5,8 @@ import { useState, useCallback } from "react"
  * @returns Component
  */
 export default function Sidebar({ initialMenuItems }) {
-  let [menuItems, setMenuItems] = useState("initialMenuItems")
+  let [menuItems, setMenuItems] = useState(initialMenuItems)
+  let [newMenuItem, setNewMenuItem] = useState("")
   // TODO: 2 Using a state hook, maintain the current menu items as an array state.
   // let [menuItems, setMenuItems] = useState(initialMenuItems)
   let [filter, setFilter] = useState("")
@@ -36,7 +37,7 @@ export default function Sidebar({ initialMenuItems }) {
     <div>
 
       <ul>
-        {initialMenuItems.map((item, index) => (
+        {filteredMenuItems.map((item, index) => (
           <li key={index}>{item}</li>
         ))}
       </ul>
@@ -49,14 +50,8 @@ export default function Sidebar({ initialMenuItems }) {
       ></input>
       <br />
 
-
-      <button>
-        onClick={(addMenuItem) => {
-          /* TODO: 3 */
-        }}
-
-        Add Item
-      </button>
+      <button onClick={addMenuItem}>Add Item</button>
+      
       <br />
       <input
         id="filter"
