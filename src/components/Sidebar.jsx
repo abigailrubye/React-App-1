@@ -4,20 +4,29 @@ import { useState, useCallback } from "react"
  * unordered list.
  * @returns Component
  */
-export default function Sidebar() {
-  let [newMenuItem, setNewMenuItem] = useState("")
+export default function Sidebar({ initialMenuItems }) {
+  let [menuItems, setMenuItems] = useState("initialMenuItems")
   // TODO: 2 Using a state hook, maintain the current menu items as an array state.
   // let [menuItems, setMenuItems] = useState(initialMenuItems)
   let [filter, setFilter] = useState("")
   // Adds a single string passed in as parameter to the state element
   // "menuItems" that holds the set of current menu items.
   let addMenuItem = useCallback(() => {
-    console.log("Added menu item")
-    //   // TODO: 3. Add a new menu item to the correct variable associated with this class.
-    //   // This involves adding a parameter and changing a class instance variable (props).
-    //   setMenuItems([item, ...menuItems])
-  }, [])
+    if (newMenuItem.trim() === "") return
 
+    setMenuItems((prevItems) => [newMenuItem, ...prevItems])
+    setNewMenuItem("")
+  }, [newMenuItem])
+  //   // TODO: 3. Add a new menu item to the correct variable associated with this class.
+  //   // This involves adding a parameter and changing a class instance variable (props).
+  //   setMenuItems([item, ...menuItems])
+
+
+  let filteredMenuItems = menuItems.filter((item) => {
+    if (filter === "") return true
+    let regex = new RegExp(filter, "i")
+    return regex.test(item)
+  })
   // TODO: 4. Display ONLY the menu items that contain the filter element value
   // "term" in them. Each menu item should be an unordered list item wrapped in an unordered list (ul) element.
 
@@ -25,6 +34,13 @@ export default function Sidebar() {
   // its own item.
   return (
     <div>
+
+      <ul>
+        {initialMenuItems.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+
       <input
         type="text"
         id="newMenuItemValue"
@@ -32,11 +48,13 @@ export default function Sidebar() {
         onChange={(event) => setNewMenuItem(event.target.value)}
       ></input>
       <br />
-      <button
-        onClick={() => {
+
+
+      <button>
+        onClick={(addMenuItem) => {
           /* TODO: 3 */
         }}
-      >
+
         Add Item
       </button>
       <br />
@@ -47,6 +65,7 @@ export default function Sidebar() {
         onChange={(event) => setFilter(event.target.value)}
         placeholder="Filter by..."
       ></input>
+
     </div>
   )
 }
